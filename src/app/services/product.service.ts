@@ -3,16 +3,18 @@ import { PRODUCTS } from '../mock-products';
 import { Observable } from 'rxjs';
 import { Product } from '../Models/product.model';
 import { of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]> {
-    return of(PRODUCTS);
+    return this.http.get<Product[]>('api/products');
   }
 
   deleteProduct(item: Product): Observable<Product[]> {
@@ -24,8 +26,7 @@ export class ProductService {
   }
 
   createProduct(item: Product):Observable<boolean> {
-    PRODUCTS.push(item);
-    return of(true);
+    return this.http.post<boolean>('api/products', item);
   }
 
   getProduct(id: number): Observable<Product> {
