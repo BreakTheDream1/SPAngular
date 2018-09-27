@@ -14,7 +14,7 @@ export class CreateComponent implements OnInit {
 
   constructor(private productService: ProductService, private router: Router) {
     this.createForm = new FormGroup({
-      'Id': new FormControl('', Validators.required),
+      'Id': new FormControl(),
       'Name': new FormControl('', Validators.required)
     })
   }
