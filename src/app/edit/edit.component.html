@@ -1,5 +1,5 @@
-<form [formGroup]="editForm" (ngSubmit)="editProduct()">
-  <input type="number" placeholder="Id" formControlName="Id" disabled>
-  <input type="text" placeholder="Name" formControlName="Name">
+<form *ngIf="load" [formGroup]="editForm" (ngSubmit)="editProduct()">
+  <input type="text" placeholder="Id" formControlName="id">
+  <input type="text" placeholder="Name" formControlName="name">
   <button type="submit">Edit</button>
 </form>

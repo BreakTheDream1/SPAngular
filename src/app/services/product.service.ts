@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PRODUCTS } from '../mock-products';
 import { Observable } from 'rxjs';
 import { Product } from '../Models/product.model';
-import { of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -11,43 +9,30 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ProductService {
 
+  private url = 'http://localhost:5000/';
+
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>('api/products');
+    return this.http.get<Product[]>(this.url + 'api/products');
   }
 
-  deleteProduct(item: Product): Observable<Product[]> {
-    let index = PRODUCTS.indexOf(item);
-    if(index != null) {
-      PRODUCTS.splice(index, 1);
-    }
-    return of(PRODUCTS);
+  deleteProduct(id: number): Observable<boolean> {
+    return this.http.delete<boolean>(this.url + 'api/products/' + id);
   }
 
   createProduct(item: Product):Observable<boolean> {
-    return this.http.post<boolean>('api/products', item);
+    return this.http.post<boolean>(this.url + 'api/products', item);
   }
 
   getProduct(id: number): Observable<Product> {
-    let product;
-    PRODUCTS.forEach(element => {
-      if(element.Id == id) {
-        product = element;
-      }
-    });
-    return of(product);
+    return this.http.get<Product>(this.url + 'api/products/' + id);
   }
 
   editProduct(item: Product): Observable<boolean> {
-    let resp = false;
-    PRODUCTS.forEach(element => {
-      if(element.Id == item.Id) {
-        let index = PRODUCTS.indexOf(element);
-        PRODUCTS[index] = item;
-        resp = true;
-      }
-    })
-    return of(resp);
+    console.log(item);
+    return this.http.put<boolean>(this.url + 'api/products/' + item.id, item);
   }
+
+  /* --proxy-config proxy.conf.json */
 }
